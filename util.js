@@ -18,8 +18,33 @@ function isFunction(fn) {
     return typeof fn === "function";
 }
 
+
+// 判断是否为对象
+function isObject(obj) {
+    return Object.prototype.toString.call(arr) === "[object Object]";
+}
+
 // 使用递归来实现一个深度克隆，可以复制一个目标对象，返回一个完整拷贝
-// 被复制的对象类型会被限制为数字、字符串、布尔、日期、数组、Object对象。不会包含函数、正则对象等
+// 被复制的对象类型会被限制为数字、字符串、布尔、日期、数组、Object对象。不包含函数、正则对象等
 function cloneObject(src) {
-    
+    // 作为返回对象
+    if(typeof src === null || typeof src !== "object") {
+        return src;
+    }
+
+    var result = isObject(src) ? {} : [];
+
+    for(var item in src) {
+        if( isObject(src[item]) ) { // 若为对象
+            result[item] = cloneObject(src[item]);
+        }
+        else if( isArray(src[item]) ) { // 若为数组
+            result[item] = cloneObject(src[item]);
+        }
+        else {
+            result[item] = src[item];
+        }
+    }
+
+    return result;
 }
