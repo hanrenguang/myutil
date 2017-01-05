@@ -1,25 +1,25 @@
-var myutil = {};
-
-//去除字符串中的所有空格，join方法性能更好，个人推测是apply操作this较慢
-myutil.trim = function (str) {
-    //return "".concat.apply("", str.split(" "));
-    return str.split(" ").join("");
-};
-
-/*
-*将字符串变为驼峰命名形式
-*variable为要处理的字符串
-*separator为各个名词之间的分隔符
-*如："get-element-by-id" -> myutil.toTuoFeng("get-element-by-id", "-")
-*/
-myutil.toTuoFeng = function (variable, separator) {
-    variable = variable.split(separator);
-    var len = variable.length,
-          i = 1;
-    variable[0] = variable[0][0].toLowerCase() + variable[0].slice(1);
-    while(--len) {
-        variable[i] = variable[i][0].toUpperCase() + variable[i].slice(1);
-        i++;
+// 判断arr是否为一个数组，返回一个bool值
+function isArray(arr) {
+    if(Array.isArray) { // 内置判断函数
+        return Array.isArray(arr);
     }
-    return variable.join("");
+
+    // 数组则返回"[object Array]"
+    return Object.prototype.toString.call(arr) === "[object Array]";
+
+    // instanceof 是根据原型链来判断的
+    // 不使用instanceof操作符是由于在多个iframe中
+    // 跨iframe实例化的对象彼此是不共享原型链的
+    // 故使用instanceof有风险
+}
+
+// 判断fn是否为一个函数，返回一个bool值
+function isFunction(fn) {
+    return typeof fn === "function";
+}
+
+// 使用递归来实现一个深度克隆，可以复制一个目标对象，返回一个完整拷贝
+// 被复制的对象类型会被限制为数字、字符串、布尔、日期、数组、Object对象。不会包含函数、正则对象等
+function cloneObject(src) {
+    
 }
