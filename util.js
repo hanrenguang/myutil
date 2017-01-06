@@ -21,7 +21,7 @@ function isFunction(fn) {
 
 // 判断是否为对象
 function isObject(obj) {
-    return Object.prototype.toString.call(arr) === "[object Object]";
+    return Object.prototype.toString.call(obj) === "[object Object]";
 }
 
 // 使用递归来实现一个深度克隆，可以复制一个目标对象，返回一个完整拷贝
@@ -32,7 +32,7 @@ function cloneObject(src) {
         return src;
     }
 
-    var result = isObject(src) ? {} : [];
+    var result = isObject(src) ? {} : []; // 判断参数为数组或对象
 
     for(var item in src) {
         if( isObject(src[item]) ) { // 若为对象
@@ -41,7 +41,7 @@ function cloneObject(src) {
         else if( isArray(src[item]) ) { // 若为数组
             result[item] = cloneObject(src[item]);
         }
-        else {
+        else { // 其他
             result[item] = src[item];
         }
     }
