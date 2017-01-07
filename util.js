@@ -102,3 +102,10 @@ function uniqArray(arr) {
 
     return arr;
 }
+
+// 对字符串头尾进行空格字符的去除、包括全角半角空格、Tab等，返回一个字符串
+function trim(str) {
+    var reg = /^\s+(.*?)\s+$/g;
+
+    return str.replace(reg, $1);
+}
