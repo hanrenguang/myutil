@@ -107,5 +107,20 @@ function uniqArray(arr) {
 function trim(str) {
     var reg = /^\s+(.*?)\s+$/g;
 
-    return str.replace(reg, $1);
+    return str.replace(reg, "$1");
+}
+
+// 实现一个遍历数组的方法，针对数组中每一个元素执行fn函数，并将数组索引和元素作为参数传递
+// 不改变原数组
+function each(arr, fn) {
+    var len = arr.length;
+
+    for(var i = 0; i < len; i++) {
+        fn.apply(null, new Array(arr[i], i));
+    }
+}
+
+// 获取一个对象里面第一层元素的数量，返回一个整数
+function getObjectLength(obj) {
+    
 }
