@@ -122,5 +122,28 @@ function each(arr, fn) {
 
 // 获取一个对象里面第一层元素的数量，返回一个整数
 function getObjectLength(obj) {
-    
+    var count = 0;
+
+    for(var item in obj) {
+        if(obj.hasOwnProperty(item)) {
+            count++;
+        }
+    }
+
+    return count;
 }
+
+// 判断是否为邮箱地址
+function isEmail(emailStr) {
+    var emailReg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+
+    return emailStr.test(emailReg);
+}
+
+// 判断是否为手机号
+function isMobilePhone(phone) {
+    var phoneReg = /^1[3|4|5|7|8]\d{9}$/;
+
+    return phone.test(phoneReg);
+}
+
