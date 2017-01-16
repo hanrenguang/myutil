@@ -147,3 +147,82 @@ function isMobilePhone(phone) {
     return phone.test(phoneReg);
 }
 
+// 为element增加一个样式名为newClassName的新样式
+function addClass(element, newClassName) {
+    if(element.className === "") { // 如果类名为空
+        element.className = newClassName;
+        return true;
+    }
+
+    var classArr = element.className.split(" ");
+
+    classArr.push(newClassName);
+    element.className = classArr.join(" ");
+
+    return true;
+}
+
+// 移除element中的样式oldClassName
+function removeClass(element, oldClassName) {
+    var classArr = element.className.split(" ");
+    var index = classArr.indexOf(oldClassName);
+
+    if(index === -1) {
+        return false;
+    }
+
+    classArr.splice(index, 1);
+    element.className = classArr.join(" ");
+
+    return true;
+}
+
+// 判断siblingNode和element是否为同一个父元素下的同一级的元素，返回bool值
+function isSiblingNode(element, siblingNode) {
+    if(element.parentNode === siblingNode.parentNode) {
+        return true;
+    }
+
+    return false;
+}
+
+// 获取element相对于浏览器窗口的位置，返回一个对象{x, y}
+function getPosition(element) {
+    var actualLeft = element.offsetLeft;
+    var actualTop = element.offsetTop;
+    var x = 0;
+    var y = 0;
+    var current = element.offsetParent;
+
+
+    if(element.getBoundingClientRect) { // 若元素存在getBoundingClientRect方法，则使用该方法
+        return {
+            x: element.getBoundingClientRect().left,
+            y: element.getBoundingClientRect().top
+        };
+    }
+    
+    while (current !== null) { // 叠加元素本身及其各个上级父元素的偏移
+        actualLeft += current.offsetLeft;
+        actualTop += current.offsetTop;
+        current = current.offsetParent;
+    }
+
+    // 获取滚动条高度和宽度
+    if(document.compatMode === "BackCompat") {
+        var elementScrollLeft = document.body.scrollLeft;
+        var elementScrollTop = document.body.scrollTop;
+    }
+    else {
+        var elementScrollLeft = document.documentElement.scrollLeft;
+        var elementScrollTop = document.documentElement.scrollTop;
+    }
+    
+    x = actualLeft - elementScrollLeft;
+    y = actualTop - elementScrollTop;
+
+    return {
+        x: x,
+        y: y
+    };
+}
