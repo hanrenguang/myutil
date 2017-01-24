@@ -413,5 +413,46 @@ function getCookie(cookieName) {
 }
 
 function ajax(url, options) {
-    // your implement
+    httpReq = new XMLHttpRequest();
+
+		if (!httpReq) {
+	      alert('Cannot create an XMLHTTP instance.');
+	      return false;
+    }
+
+		httpReq.onreadystatechange = function() {
+				if(httpReq.readyState == 4) {
+						if(httpReq.status == 200) { // success
+								if(options.onsuccess) {
+										options.onsuccess();
+								}
+						}
+						else { // fail
+								if(options.onfail) {
+										options.onfail();
+								}
+						}
+				}
+		};
+
+		if(options.type) {
+				if(options.type.toUpperCase() === "GET") {
+						httpReq.open('GET', url, true); // true 表示异步，即js继续执行
+						httpReq.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+						httpReq.send(null);
+				}
+				else if(options.type.toUpperCase() === "POST") {
+						var data = "";
+						if(options.data) {
+								for(var name in options.data) {
+										data = data + name + "=" + options.data[name] + "&";
+								}
+								data = data.slice(0, -1);
+						}
+
+						httpReq.open('POST', url, true); // true 表示异步，即js继续执行
+						httpReq.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+						httpReq.send(data);
+				}
+		}
 }
