@@ -23,6 +23,11 @@ function isObject(obj) {
 		return Object.prototype.toString.call(obj) === "[object Object]";
 }
 
+// 判断元素是否为字符串
+function isString(str) {
+		return Object.prototype.toString.call(str) === "[object String]";
+}
+
 // 使用递归来实现一个深度克隆，可以复制一个目标对象，返回一个完整拷贝
 // 被复制的对象类型会被限制为数字、字符串、布尔、日期、数组、Object对象。不包含函数、正则对象等
 function cloneObject(src) {
@@ -236,6 +241,10 @@ function $(selector) {
 				attrValueExpr = /^(?:\[([\w-]+)\=(.*?)\])$/,  // [attribute=value]
 				childNodeExpr = /^(?:(.*?)\s(.*?))$/;
 
+		if( !isString(selector) ) {
+				return selector;
+		}
+
 		var id = idExpr.exec(selector),
 				klass = klassExpr.exec(selector),
 				htmlElem = htmlExpr.exec(selector),
@@ -338,4 +347,71 @@ function $(selector) {
 						}
 				}
 		}
+}
+
+// 给一个element绑定一个针对event事件的响应，响应函数为listener
+$.on = function (selector, event, listener) {
+    $(selector).addEventListener(event, listener, false);
+}
+
+// 移除element对象对于event事件发生时执行listener的响应
+$.un = function (selector, event, listener) {
+    $(selector).removeEventListener(event, listener, false);
+}
+
+// 实现对click事件的绑定
+$.click = function (selector, listener) {
+    $(selector).addEventListener("click", listener, false);
+}
+
+// 实现对于按Enter键时的事件绑定
+$.enter = function (selector, listener) {
+		$(selector).addEventListener("keydown", function (e) {
+				if (event.which == 13 || event.keyCode == 13) {
+						listener();
+				}
+		}, false);
+}
+
+// 事件代理（对每个selector下的tag元素调用listener函数）
+$.delegate = function (selector, tag, event, listener) {
+		$.on(selector, event, function (e) {
+				e = e || window.event;
+				var target = e.srcElement ? e.srcElement : e.target;
+
+				if(tag === target.nodeName.toLowerCase()) {
+						listener.call(target);
+				}
+		});
+}
+
+// 判断是否为IE浏览器，返回-1或者版本号
+function isIE() {
+		var b = document.createElement('b');
+	  b.innerHTML = '<!--[if IE]><i></i><![endif]-->';
+	  return b.getElementsByTagName('i').length === 1;
+}
+
+// 设置cookie
+function setCookie(cookieName, cookieValue, expiredays) {
+		var expires = "";
+		if (expiredays) {
+				var date = new Date();
+				date.setTime(date.getTime() + (expiredays*24*60*60*1000));
+				expires = "; expires=" + date.toUTCString();
+			}
+			document.cookie = cookieName + "=" + cookieValue + expires;
+}
+
+// 获取cookie值
+function getCookie(cookieName) {
+		var value = "; " + document.cookie;
+		var parts = value.split("; " + cookieName + "=");
+		if (parts.length === 2) {
+				return parts.pop().split(";").shift();
+		}
+}
+
+function ajax(url, options) {
+    // your implement
 }
