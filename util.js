@@ -282,17 +282,17 @@ function $(selector) {
 				if(parent.charAt(0) === "#") {
 						parentNd = document.getElementById(parent.slice(1));
 						if(child.charAt(0) === "#") {
-								if( childNd = parentNd[i].getElementById(child.slice(1)) ) {
+								if( childNd = parentNd.getElementById(child.slice(1)) ) {
 										return childNd;
 								}
 						}
 						else if(child.charAt(0) === ".") {
-								if( childNd = parentNd[i].getElementsByClassName(child.slice(1))[0] ) {
+								if( childNd = parentNd.getElementsByClassName(child.slice(1))[0] ) {
 										return childNd;
 								}
 						}
 						else {
-								if( childNd = parentNd[i].getElementsByTagName(child)[0] ) {
+								if( childNd = parentNd.getElementsByTagName(child)[0] ) {
 										return childNd;
 								}
 						}
