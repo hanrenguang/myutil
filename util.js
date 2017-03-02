@@ -395,6 +395,7 @@ function getCookie(cookieName) {
     }
 }
 
+// 封装 ajax
 function ajax(url, options) {
     httpReq = new XMLHttpRequest();
 
