@@ -50,39 +50,6 @@ function cloneObject(src) {
     return result;
 }
 
-// 对数组进行去重操作，只考虑数组中元素全为数字或全为字符串，且每个重复的数最多出现两次，返回一个去重后的数组
-/*function uniqArray(arr) {
-		// 使用 hash 数组来解决
-		// hash 数组结构为二维数组
-		// 例：hash[0][0] 存数组元素
-		// *** hash[0][1] 存该元素在数组中出现次数
-		// *** hash[0][2] 存该元素在原数组中的索引
-		var hash = [];
-		var len = arr.length;
-
-		for(var i = 0; i < len; i++) {
-				for(var j = 0; j < hash.length; j++) {
-						if(arr[i] === hash[j][0]) { // 重复
-								hash[j][1]++;
-								break;
-						}
-				}
-
-				if(j === hash.length) {  // 第一次出现
-						hash[j] = new Array(arr[i], 1, i);
-				}
-		}
-
-		for(i = hash.length-1; i >= 0; i--) { // 在这里需要注意一个顺序的问题，如果把前面的数删了，后面的数的索引也会改变
-				if(hash[i][1] !== 1) {
-						arr.splice(hash[i][2], 1);
-				}
-		}
-
-		return arr;
-	}*/
-
-
 // 对数组进行去重操作，只考虑数组中元素全为数字或全为字符串，返回一个去重后的数组
 function uniqArray(arr) {
     // 使用 hash 数组来解决
@@ -368,6 +335,7 @@ $.delegate = function(selector, tag, event, listener) {
     });
 }
 
+
 // 判断是否为IE浏览器，返回-1或者版本号
 function isIE() {
     var b = document.createElement('b');
@@ -437,4 +405,21 @@ function ajax(url, options) {
             httpReq.send(data);
         }
     }
+}
+
+/**
+ * 缓存代理
+ * @param  {Function} fn [需要缓存结果的函数]
+ * @return {[type]}      [description]
+ */
+function cached(fn) {
+	var cache = Object.create(null);
+
+	return function (param) {
+		if(cache[param]) {
+			return cache[param];
+		} else {
+			return (cache[param] = fn(param));
+		}
+	}
 }
