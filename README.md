@@ -1,3 +1,3 @@
 # myutil
 
-小js库
+小js工具库
