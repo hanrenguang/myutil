@@ -413,13 +413,13 @@ function ajax(url, options) {
  * @return {[type]}      [description]
  */
 function cached(fn) {
-	var cache = Object.create(null);
+    var cache = Object.create(null);
 
-	return function (param) {
-		if(cache[param]) {
-			return cache[param];
-		} else {
-			return (cache[param] = fn(param));
-		}
-	}
+    return function(param) {
+        if (cache[param]) {
+            return cache[param];
+        } else {
+            return (cache[param] = fn(param));
+        }
+    }
 }
